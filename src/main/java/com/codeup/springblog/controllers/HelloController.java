@@ -26,7 +26,7 @@ public class HelloController {
         model.addAttribute("name", username);
         model.addAttribute("age", age);
 
-        return "happy-birthday";
+        return "happy_birthday";
     }
 
     @GetMapping("/random/number")
@@ -42,7 +42,7 @@ public class HelloController {
 
     public String viewWeather(Model model){
         model.addAttribute("temperature", "99F");
-        return "weather-page";
+        return "weather_page";
     }
 
 
