@@ -30,18 +30,20 @@ public class HelloController {
     }
 
     @GetMapping("/random/number")
-    @ResponseBody
-    public int randomNumber(){
+    public String randomNumber(Model model){
         Random r = new Random();
         int low = 10;
         int high = 100;
-        return r.nextInt(high-low) + low;
+        int randomNumber = r.nextInt(high-low) + low;
+        model.addAttribute("num", randomNumber);
+        return "random";
     }
 
     @GetMapping("/weather")
 
     public String viewWeather(Model model){
-        model.addAttribute("temperature", "99F");
+        String[] weatherInfo = {"Hot", "Humid", "Cloudy", "99F"};
+        model.addAttribute("weatherStats", weatherInfo);
         return "weather_page";
     }
 

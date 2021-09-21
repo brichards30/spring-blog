@@ -5,12 +5,22 @@
     <title>Today's Forecast</title>
 </head>
 <body>
+<nav th:replace="partials :: navbar">
+
+</nav>
+
 <h1>Today's weather forecast is: </h1>
 
+<!--<ul>-->
+<!--    <li>Hot</li>-->
+<!--    <li>Humid</li>-->
+<!--    <li th:text="${temperature}"></li>-->
+<!--</ul>-->
+
 <ul>
-    <li>Hot</li>
-    <li>Humid</li>
-    <li th:text="${temperature}"></li>
+    <th:block th:each="stat : ${weatherStats}">
+        <li th:text="${stat}"></li>
+    </th:block>
 </ul>
 
 </body>
