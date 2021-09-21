@@ -8,7 +8,7 @@ public class PostController {
     @GetMapping(path = "/posts")
     @ResponseBody
 
-    public String postsIndex(){
+    public String postsIndex() {
         return "Posts index page";
     }
 
@@ -17,21 +17,21 @@ public class PostController {
 
     public String singlePost(
             @PathVariable int id
-    ){
+    ) {
         return "View an individual posts";
     }
 
     @GetMapping("/posts/create")
     @ResponseBody
 
-    public String createPostForm(){
+    public String createPostForm() {
         return "View form for creating posts";
     }
 
     @PostMapping("/posts/create")
-//    @ResponseBody
+    @ResponseBody
 
-    public String createPost(){
+    public String createPost() {
         return "Create a new post";
     }
 }
