@@ -1,6 +1,7 @@
 package com.codeup.springblog.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,14 +15,19 @@ public class HelloController {
     public String helloFromSpring(){
         return "Hello from the world of Spring Boot.";
     }
-//    @GetMapping("/happy_birthday/{username}/{age}")
+
+    @GetMapping("/happy_birthday/{username}/{age}")
 //    @ResponseBody
-//    public String helloWorld(
-//            @PathVariable String username,
-//            @PathVariable int age
-//    ){
-//        return "Happy Birthday, " + username + "! You are now " + age + " years old!";
-//    }
+    public String helloWorld(
+            @PathVariable String username,
+            @PathVariable int age,
+            Model model
+    ){
+        model.addAttribute("name", username);
+        model.addAttribute("age", age);
+
+        return "happy-birthday";
+    }
 
     @GetMapping("/random/number")
     @ResponseBody
@@ -34,8 +40,9 @@ public class HelloController {
 
     @GetMapping("/weather")
 
-    public String viewWeather(){
-        return "WeatherPage";
+    public String viewWeather(Model model){
+        model.addAttribute("temperature", "99F");
+        return "weather-page";
     }
 
 
