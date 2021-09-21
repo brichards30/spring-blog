@@ -18,7 +18,7 @@ public class PostController {
     public String singlePost(
             @PathVariable int id
     ) {
-        return "View an individual posts";
+        return "Viewing post " + id + ".";
     }
 
     @GetMapping("/posts/create")
