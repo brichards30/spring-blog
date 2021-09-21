@@ -15,10 +15,10 @@ public class PostController {
     @RequestMapping(path = "/posts/{id}", method = RequestMethod.GET)
     @ResponseBody
 
-    public String usersPost(
+    public String singlePost(
             @PathVariable int id
     ){
-        return "View " + id + "'s posts";
+        return "View an individual posts";
     }
 
     @GetMapping("/posts/create")
@@ -29,7 +29,7 @@ public class PostController {
     }
 
     @PostMapping("/posts/create")
-    @ResponseBody
+//    @ResponseBody
 
     public String createPost(){
         return "Create a new post";
