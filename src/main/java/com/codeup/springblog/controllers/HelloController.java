@@ -32,5 +32,11 @@ public class HelloController {
         return r.nextInt(high-low) + low;
     }
 
+    @GetMapping("/weather")
+
+    public String viewWeather(){
+        return "WeatherPage";
+    }
+
 
 }
