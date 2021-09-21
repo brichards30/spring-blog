@@ -12,7 +12,7 @@ public class PostController {
         return "Posts index page";
     }
 
-    @RequestMapping(path = "/posts/{id}", method = RequestMethod.GET)
+    @GetMapping("/posts/{id}")
     @ResponseBody
 
     public String singlePost(
