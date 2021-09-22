@@ -5,9 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-<nav th:replace="partials :: navbar">
+<nav th:replace="partials :: navbar"></nav>
 
-</nav>
+<header th:replace="partials :: header"></header>
 <p>Your random number is <span th:text="${num}"></span></p>
 
 <th:block th:if="${num % 2 == 0}">
@@ -17,5 +17,7 @@
 <th:block th:if="${!(num % 2 == 0)}">
     <p>Your number is odd.</p>
 </th:block>
+
+<footer th:replace="partials :: footer"></footer>
 </body>
 </html>
