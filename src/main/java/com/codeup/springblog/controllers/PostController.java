@@ -1,7 +1,10 @@
 package com.codeup.springblog.controllers;
 
 import com.codeup.springblog.models.Post;
+import com.codeup.springblog.models.User;
 import com.codeup.springblog.repos.PostRepository;
+import com.codeup.springblog.repos.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +15,11 @@ import java.util.List;
 @Controller
 public class PostController {
 
+    @Autowired
     private final PostRepository postDao;
+
+    @Autowired
+    private UserRepository userDao;
 
     public PostController(PostRepository postDao) {
         this.postDao = postDao;
@@ -57,6 +64,7 @@ public class PostController {
             @RequestParam(name = "body") String body
     ) {
 
+        User hardCodedUser = userDao.getPostById(1L);
         Post postToSubmitToDB = new Post(title, body);
 
         postDao.save(postToSubmitToDB);
