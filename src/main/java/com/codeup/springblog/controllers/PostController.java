@@ -64,7 +64,7 @@ public class PostController {
             @RequestParam(name = "body") String body
     ) {
 
-        User hardCodedUser = userDao.getPostById(1L);
+//        User hardCodedUser = userDao.getPostById(1L);
         Post postToSubmitToDB = new Post(title, body);
 
         postDao.save(postToSubmitToDB);
