@@ -14,13 +14,12 @@ public class PostController {
 
     private final PostRepository postDao;
 
-    public PostController(PostRepository postDao){
+    public PostController(PostRepository postDao) {
         this.postDao = postDao;
     }
 
     @GetMapping(path = "/posts")
-
-    public String postsIndex(Model model) {
+    public String showAllPosts(Model model) {
 
         List<Post> postsToShow = postDao.findAll();
 //        List<Post> allPosts = new ArrayList<>();
@@ -35,7 +34,8 @@ public class PostController {
 
     public String singlePost(@PathVariable int id, Model model) {
 
-        Post post = new Post("New Post", "New Body");
+        Post post = postDao.getPostById(id);
+//        Post post = new Post("New Post", "New Body");
         model.addAttribute("postID", id);
         model.addAttribute("newPost", post);
 
@@ -62,6 +62,22 @@ public class PostController {
         postDao.save(postToSubmitToDB);
         return "redirect:/posts";
     }
+
+    @GetMapping("/posts/edit/{id}")
+    public String editPostForm(@PathVariable long id, Model model) {
+        Post postToEdit = postDao.getPostById(id);
+        model.addAttribute("post", postToEdit);
+        return "post/edit";
+    }
+
+//    @PostMapping("/posts/edit/{id}")
+//    public String editPost(
+//            @PathVariable long id,
+//            @RequestParam(name = "title") String title,
+//            @RequestParam(name = "body") String body
+//    ) {
+//
+//    }
 
 
 }
