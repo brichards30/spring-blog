@@ -1,6 +1,7 @@
 package com.codeup.springblog.controllers;
 
 import com.codeup.springblog.models.Post;
+import com.codeup.springblog.repos.PostRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,17 +11,23 @@ import java.util.List;
 
 @Controller
 public class PostController {
+
+    private final PostRepository postDao;
+
+    public PostController(PostRepository postDao){
+        this.postDao = postDao;
+    }
+
     @GetMapping(path = "/posts")
 
     public String postsIndex(Model model) {
 
-        List<Post> allPosts = new ArrayList<>();
-
-        allPosts.add(new Post("Another Post!", "Another one"));
-        allPosts.add(new Post("Yet Another Post!", "Yet another one"));
-
-        model.addAttribute("posts", allPosts);
-
+        List<Post> postsToShow = postDao.findAll();
+//        List<Post> allPosts = new ArrayList<>();
+//
+//        allPosts.add(new Post("Another Post!", "Another one"));
+//        allPosts.add(new Post("Yet Another Post!", "Yet another one"));
+        model.addAttribute("posts", postsToShow);
         return "post/index";
     }
 
@@ -45,7 +52,16 @@ public class PostController {
     @PostMapping("/posts/create")
     @ResponseBody
 
-    public String createPost() {
-        return "Create a new post";
+    public String createPost(
+            @RequestParam(name = "title") String title,
+            @RequestParam(name = "body") String body
+    ) {
+
+        Post postToSubmitToDB = new Post(title, body);
+
+        postDao.save(postToSubmitToDB);
+        return "redirect:/posts";
     }
+
+
 }
