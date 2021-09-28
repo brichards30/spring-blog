@@ -7,6 +7,7 @@ import com.codeup.springblog.repos.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Controller
@@ -30,7 +31,7 @@ public class PostController {
 //        allPosts.add(new Post("Another Post!", "Another one"));
 //        allPosts.add(new Post("Yet Another Post!", "Yet another one"));
         model.addAttribute("posts", postsToShow);
-        return "posts/index";
+        return "post/index";
     }
 
     @GetMapping("/posts/{id}")
@@ -38,17 +39,17 @@ public class PostController {
     public String singlePost(@PathVariable int id, Model model) {
 
         Post postToShow = postDao.getPostById(id);
-//        Post post = new Post("New Post", "New Body");
-//        model.addAttribute("postID", id);
+
+        model.addAttribute("postID", id);
         model.addAttribute("newPost", postToShow);
 
-        return "posts/show";
+        return "post/show";
     }
 
     @GetMapping("/posts/create")
 
     public String createPostForm() {
-        return "posts/create";
+        return "post/create";
     }
 
     @PostMapping("/posts/create")
@@ -58,10 +59,9 @@ public class PostController {
             @RequestParam(name = "body") String body
     ) {
 
-       User currentUser = userDao.getById(1L);
+        User currentOwner = userDao.getById(1L);
 
-        Post postToSubmitToDB = new Post(title, body, currentUser);
-
+        Post postToSubmitToDB = new Post(title, body, currentOwner);
         postDao.save(postToSubmitToDB);
         return "redirect:/posts";
     }
@@ -70,7 +70,7 @@ public class PostController {
     public String editPostForm(@PathVariable long id, Model model) {
         Post postToEdit = postDao.getPostById(id);
         model.addAttribute("post", postToEdit.getId());
-        return "posts/edit";
+        return "post/edit";
     }
 
     @PostMapping("/posts/edit/{id}")
@@ -79,10 +79,17 @@ public class PostController {
             @RequestParam(name = "title") String title,
             @RequestParam(name = "body") String body
     ) {
-            Post editedPost = new Post(id, title, body);
 
-            postDao.save(editedPost);
-            return "redirect:/posts";
+        //Grabs existing info from current ad, save updated contents
+        Post postToUpdate = postDao.getPostById(id);
+
+        //update contents
+        postToUpdate.setTitle(title);
+        postToUpdate.setBody(body);
+
+        //save updated post
+        postDao.save(postToUpdate);
+        return "redirect:/posts";
     }
 
     @PostMapping("/posts/delete/{id}")

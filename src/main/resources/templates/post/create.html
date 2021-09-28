@@ -5,10 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-<form action="posts/create" method="post">
+<nav th:replace="partials/navbar :: navbar"></nav>
+<form action="/posts/create" method="post">
   <input type="text" name="title" placeholder="title">
   <input type="text" name="body" placeholder="body">
   <input type="submit">
 </form>
+<footer th:replace="partials/footer :: footer"></footer>
 </body>
 </html>

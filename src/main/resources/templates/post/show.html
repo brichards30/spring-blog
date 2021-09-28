@@ -8,9 +8,10 @@
 <nav th:replace="partials/navbar :: navbar"></nav>
 
 <div>
-    <div th:text="${postID}">ID</div>
+<!--    <div th:text="${postID}">ID</div>-->
     <div th:text="${newPost.title}">Title</div>
     <div th:text="${newPost.body}">Description</div>
+    <div>Created by: <span th:text="${newPost.owner.username}"></span></div>
     <a th:href="@{|/posts/edit/${postID}|}">Edit Post</a>
     <form th:action="@{|/posts/delete/${postID}|}" th:method="post">
         <button type="submit">Delete</button>

@@ -70,4 +70,12 @@ public class Post {
     public void setId(long id) {
         this.id = id;
     }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 }
