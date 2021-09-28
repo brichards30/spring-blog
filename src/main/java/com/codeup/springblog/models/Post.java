@@ -23,9 +23,22 @@ public class Post {
     public Post() {
     }
 
+    public Post(long id, String title, String body, User owner) {
+        this.id = id;
+        this.title = title;
+        this.body = body;
+        this.owner = owner;
+    }
+
     public Post(String title, String body) {
         this.title = title;
         this.body = body;
+    }
+
+    public Post(String title, String body, User owner) {
+        this.title = title;
+        this.body = body;
+        this.owner = owner;
     }
 
     public Post(long id, String title, String body) {

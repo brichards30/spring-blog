@@ -4,25 +4,21 @@ import com.codeup.springblog.models.Post;
 import com.codeup.springblog.models.User;
 import com.codeup.springblog.repos.PostRepository;
 import com.codeup.springblog.repos.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class PostController {
 
-    @Autowired
     private final PostRepository postDao;
 
-    @Autowired
     private UserRepository userDao;
 
-    public PostController(PostRepository postDao) {
+    public PostController(PostRepository postDao, UserRepository userDao) {
         this.postDao = postDao;
+        this.userDao = userDao;
     }
 
     @GetMapping(path = "/posts")
@@ -34,38 +30,37 @@ public class PostController {
 //        allPosts.add(new Post("Another Post!", "Another one"));
 //        allPosts.add(new Post("Yet Another Post!", "Yet another one"));
         model.addAttribute("posts", postsToShow);
-        return "post/index";
+        return "posts/index";
     }
 
     @GetMapping("/posts/{id}")
 
     public String singlePost(@PathVariable int id, Model model) {
 
-        Post post = postDao.getPostById(id);
+        Post postToShow = postDao.getPostById(id);
 //        Post post = new Post("New Post", "New Body");
-        model.addAttribute("postID", id);
-        model.addAttribute("newPost", post);
+//        model.addAttribute("postID", id);
+        model.addAttribute("newPost", postToShow);
 
-        return "post/show";
+        return "posts/show";
     }
 
     @GetMapping("/posts/create")
-    @ResponseBody
 
     public String createPostForm() {
-        return "View form for creating posts";
+        return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    @ResponseBody
 
     public String createPost(
             @RequestParam(name = "title") String title,
             @RequestParam(name = "body") String body
     ) {
 
-//        User hardCodedUser = userDao.getPostById(1L);
-        Post postToSubmitToDB = new Post(title, body);
+       User currentUser = userDao.getById(1L);
+
+        Post postToSubmitToDB = new Post(title, body, currentUser);
 
         postDao.save(postToSubmitToDB);
         return "redirect:/posts";
@@ -75,7 +70,7 @@ public class PostController {
     public String editPostForm(@PathVariable long id, Model model) {
         Post postToEdit = postDao.getPostById(id);
         model.addAttribute("post", postToEdit.getId());
-        return "post/edit";
+        return "posts/edit";
     }
 
     @PostMapping("/posts/edit/{id}")
