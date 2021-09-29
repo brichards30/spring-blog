@@ -48,21 +48,18 @@ public class PostController {
 
     @GetMapping("/posts/create")
 
-    public String createPostForm() {
+    public String createPostForm(Model model) {
+        model.addAttribute("post", new Post());
         return "post/create";
     }
 
     @PostMapping("/posts/create")
 
-    public String createPost(
-            @RequestParam(name = "title") String title,
-            @RequestParam(name = "body") String body
-    ) {
+    public String createPost(@ModelAttribute Post postToAdd) {
 
-        User currentOwner = userDao.getById(1L);
+        postToAdd.setOwner(userDao.getById(1L));
 
-        Post postToSubmitToDB = new Post(title, body, currentOwner);
-        postDao.save(postToSubmitToDB);
+        postDao.save(postToAdd);
         return "redirect:/posts";
     }
 

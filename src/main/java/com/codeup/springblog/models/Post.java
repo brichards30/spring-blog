@@ -20,6 +20,7 @@ public class Post {
     private User owner;
 
 
+    //CONSTRUCTORS
     public Post() {
     }
 
@@ -47,6 +48,7 @@ public class Post {
         this.body = body;
     }
 
+    //GETTERS AND SETTERS
     public String getTitle() {
         return title;
     }
