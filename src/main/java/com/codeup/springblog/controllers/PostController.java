@@ -71,8 +71,9 @@ public class PostController {
     }
 
     @PostMapping("/posts/edit/{id}")
-    public String editPost(@ModelAttribute Post updatedPost) {
+    public String editPost(@PathVariable long id, @ModelAttribute Post updatedPost) {
 
+        updatedPost.setId(id);
         updatedPost.setOwner(userDao.getById(1L));
         postDao.save(updatedPost);
 
