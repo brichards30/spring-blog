@@ -66,26 +66,16 @@ public class PostController {
     @GetMapping("/posts/edit/{id}")
     public String editPostForm(@PathVariable long id, Model model) {
         Post postToEdit = postDao.getPostById(id);
-        model.addAttribute("post", postToEdit.getId());
+        model.addAttribute("postToEdit", postToEdit.getId());
         return "post/edit";
     }
 
     @PostMapping("/posts/edit/{id}")
-    public String editPost(
-            @PathVariable long id,
-            @RequestParam(name = "title") String title,
-            @RequestParam(name = "body") String body
-    ) {
+    public String editPost(@ModelAttribute Post updatedPost) {
 
-        //Grabs existing info from current ad, save updated contents
-        Post postToUpdate = postDao.getPostById(id);
+        updatedPost.setOwner(userDao.getById(1L));
+        postDao.save(updatedPost);
 
-        //update contents
-        postToUpdate.setTitle(title);
-        postToUpdate.setBody(body);
-
-        //save updated post
-        postDao.save(postToUpdate);
         return "redirect:/posts";
     }
 
