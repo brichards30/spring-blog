@@ -36,7 +36,7 @@ public class PostController {
 
     @GetMapping("/posts/{id}")
 
-    public String singlePost(@PathVariable int id, Model model) {
+    public String showSinglePost(@PathVariable int id, Model model) {
 
         Post postToShow = postDao.getPostById(id);
 
@@ -66,7 +66,7 @@ public class PostController {
     @GetMapping("/posts/edit/{id}")
     public String editPostForm(@PathVariable long id, Model model) {
         Post postToEdit = postDao.getPostById(id);
-        model.addAttribute("postToEdit", postToEdit.getId());
+        model.addAttribute("postToEdit", postToEdit);
         return "post/edit";
     }
 
