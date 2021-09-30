@@ -3,6 +3,7 @@ package com.codeup.springblog.controllers;
 import com.codeup.springblog.models.User;
 import com.codeup.springblog.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,14 @@ import org.springframework.web.bind.annotation.*;
 public class UsersController {
 
     @Autowired
-    private UserRepository userDao;
+    private final UserRepository userDao;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public UsersController(UserRepository userDao, PasswordEncoder passwordEncoder) {
+        this.userDao = userDao;
+        this.passwordEncoder = passwordEncoder;
+    }
 
 //    @GetMapping("/user/create")
 //    public String createUserForm() {
@@ -28,7 +36,7 @@ public class UsersController {
     public String saveUser(@ModelAttribute User user){
         String hash = passwordEncoder.encode(user.getPassword());
         user.setPassword(hash);
-        users.save(user);
+        userDao.save(user);
         return "redirect:/login";
     }
 
@@ -37,7 +45,7 @@ public class UsersController {
             @PathVariable String username,
             Model model
     ){
-        User userToDisplay = userDao.getByUsername(username);
+        User userToDisplay = userDao.findByUsername(username);
         model.addAttribute("user", userToDisplay);
 
         return "user/displayAds";
