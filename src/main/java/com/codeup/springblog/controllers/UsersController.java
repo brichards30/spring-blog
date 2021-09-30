@@ -13,9 +13,23 @@ public class UsersController {
     @Autowired
     private UserRepository userDao;
 
-    @GetMapping("/user/create")
-    public String createUserForm() {
-        return "user/create";
+//    @GetMapping("/user/create")
+//    public String createUserForm() {
+//        return "user/create";
+//    }
+
+    @GetMapping("/sign-up")
+    public String showSignupForm(Model model){
+        model.addAttribute("user", new User());
+        return "user/sign-up";
+    }
+
+    @PostMapping("/sign-up")
+    public String saveUser(@ModelAttribute User user){
+        String hash = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hash);
+        users.save(user);
+        return "redirect:/login";
     }
 
     @GetMapping("/user/{username}/ads")
