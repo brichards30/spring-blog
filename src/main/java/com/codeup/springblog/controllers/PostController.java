@@ -4,6 +4,8 @@ import com.codeup.springblog.models.Post;
 import com.codeup.springblog.models.User;
 import com.codeup.springblog.repos.PostRepository;
 import com.codeup.springblog.repos.UserRepository;
+import com.codeup.springblog.services.EmailSvc;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +19,12 @@ public class PostController {
 
     private UserRepository userDao;
 
-    public PostController(PostRepository postDao, UserRepository userDao) {
+    private final EmailSvc emailSvc;
+
+    public PostController(PostRepository postDao, UserRepository userDao, EmailSvc emailSvc) {
         this.postDao = postDao;
         this.userDao = userDao;
+        this.emailSvc = emailSvc;
     }
 
     @GetMapping(path = "/posts")
@@ -57,9 +62,13 @@ public class PostController {
 
     public String createPost(@ModelAttribute Post postToAdd) {
 
-        postToAdd.setOwner(userDao.getById(1L));
+        User currentLoggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        postToAdd.setOwner(currentLoggedInUser);
 
         postDao.save(postToAdd);
+
+        emailSvc.prepareAndSend(postToAdd, "New Post", "You created a new post");
         return "redirect:/posts";
     }
 

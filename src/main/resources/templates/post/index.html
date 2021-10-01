@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="partials/head :: head('Spring Blog | All Posts')">
     <meta charset="UTF-8">
     <title>Title</title>
@@ -8,6 +9,12 @@
 <nav th:replace="partials/navbar :: navbar"></nav>
 
 <h2>All Posts</h2>
+
+<div sec:authorize="isAuthenticated()">
+
+   <h3>Welcome, <span th:text="${#authentication.principal.username}"/>!</h3>
+
+</div>
 
 <div th:each="post : ${posts}">
 
