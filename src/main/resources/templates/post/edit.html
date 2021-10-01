@@ -5,6 +5,8 @@
     <title>Edit Post</title>
 </head>
 <body>
+<nav th:replace="partials/navbar :: navbar"></nav>
+
 
 <form th:action="@{|/posts/edit/${id}|}" th:method="post" th:object="${postToEdit}">
 
